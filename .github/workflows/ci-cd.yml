@@ -62,14 +62,16 @@ jobs:
     
     - name: Run Setup Infrastructure Job
       run: |
-        databricks jobs run-now --job-name "Setup Infrastructure"
+        JOB_ID=$(databricks jobs list --output json | jq -r '.jobs[] | select(.settings.name=="Setup Infrastructure") | .job_id')
+        databricks jobs run-now $JOB_ID
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
     
     - name: Run Data Ingestion Job
       run: |
-        databricks jobs run-now --job-name "Superstore Data Ingestion"
+        JOB_ID=$(databricks jobs list --output json | jq -r '.jobs[] | select(.settings.name=="Superstore Data Ingestion") | .job_id')
+        databricks jobs run-now $JOB_ID
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
@@ -101,14 +103,16 @@ jobs:
     
     - name: Run Setup Infrastructure Job
       run: |
-        databricks jobs run-now --job-name "Setup Infrastructure"
+        JOB_ID=$(databricks jobs list --output json | jq -r '.jobs[] | select(.settings.name=="Setup Infrastructure") | .job_id')
+        databricks jobs run-now $JOB_ID
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
     
     - name: Run Data Ingestion Job
       run: |
-        databricks jobs run-now --job-name "Superstore Data Ingestion"
+        JOB_ID=$(databricks jobs list --output json | jq -r '.jobs[] | select(.settings.name=="Superstore Data Ingestion") | .job_id')
+        databricks jobs run-now $JOB_ID
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
