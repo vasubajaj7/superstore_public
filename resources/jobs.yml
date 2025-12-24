@@ -13,7 +13,7 @@ resources:
         - task_key: "load_raw_to_stage"
           job_cluster_key: "main"
           notebook_task:
-            notebook_path: "./src/load_raw_to_stage.py"
+            notebook_path: "src/load_raw_to_stage.py"
             base_parameters:
               catalog_name: ${var.catalog_name}
               schema_name: ${var.schema_stage}
@@ -32,7 +32,7 @@ resources:
       target: ${var.schema_processed}
       libraries:
         - notebook:
-            path: "./src/dlt_pipeline.py"
+            path: "src/dlt_pipeline.py"
       clusters:
         - label: "default"
           num_workers: 1
