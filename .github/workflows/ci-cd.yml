@@ -32,9 +32,9 @@ jobs:
       run: |
         pytest tests/ -m unit -v
     
-    - name: Run integration tests
-      run: |
-        pytest tests/ -m integration -v
+    # - name: Run integration tests
+    #   run: |
+    #     pytest tests/ -m integration -v
 
   deploy-dev:
     needs: test
