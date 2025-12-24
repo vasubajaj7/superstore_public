@@ -19,9 +19,9 @@ targets:
     mode: development
     default: true
     variables:
-      catalog_name: ${var.catalog_name}_dev
+      catalog_name: superstore_dev
   
   prod:
     mode: production
     variables:
-      catalog_name: ${var.catalog_name}
+      catalog_name: superstore
