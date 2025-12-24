@@ -18,18 +18,10 @@ targets:
   dev:
     mode: development
     default: true
-    workspace:
-      host: ${workspace.host}
     variables:
       catalog_name: ${var.catalog_name}_dev
   
   prod:
     mode: production
-    workspace:
-      host: ${workspace.host}
     variables:
       catalog_name: ${var.catalog_name}
-    
-    # Require explicit confirmation for production deployments
-    run_as:
-      service_principal_name: ${workspace.service_principal}

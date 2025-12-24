@@ -1,9 +1,4 @@
 resources:
-  catalogs:
-    superstore_catalog:
-      name: ${var.catalog_name}
-      comment: "Superstore data catalog"
-      
   schemas:
     stage_schema:
       name: ${var.schema_stage}
