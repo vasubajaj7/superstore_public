@@ -1,0 +1,35 @@
+bundle:
+  name: superstore
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog_name:
+    default: superstore
+  schema_stage:
+    default: stage
+  schema_processed:
+    default: processed
+  volume_name:
+    default: raw
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: ${workspace.host}
+    variables:
+      catalog_name: ${var.catalog_name}_dev
+  
+  prod:
+    mode: production
+    workspace:
+      host: ${workspace.host}
+    variables:
+      catalog_name: ${var.catalog_name}
+    
+    # Require explicit confirmation for production deployments
+    run_as:
+      service_principal_name: ${workspace.service_principal}

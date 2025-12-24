@@ -1,0 +1,43 @@
+resources:
+  jobs:
+    superstore_ingestion:
+      name: "Superstore Data Ingestion"
+      job_clusters:
+        - job_cluster_key: "main"
+          new_cluster:
+            spark_version: "13.3.x-scala2.12"
+            node_type_id: "i3.xlarge"
+            num_workers: 2
+            
+      tasks:
+        - task_key: "load_raw_to_stage"
+          job_cluster_key: "main"
+          notebook_task:
+            notebook_path: "./src/load_raw_to_stage"
+            base_parameters:
+              catalog_name: ${var.catalog_name}
+              schema_name: ${var.schema_stage}
+              volume_name: ${var.volume_name}
+              
+        - task_key: "dlt_pipeline"
+          depends_on:
+            - task_key: "load_raw_to_stage"
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.superstore_dlt.id}
+            
+  pipelines:
+    superstore_dlt:
+      name: "Superstore DLT Pipeline"
+      catalog: ${var.catalog_name}
+      target: ${var.schema_processed}
+      libraries:
+        - notebook:
+            path: "./src/dlt_pipeline"
+      clusters:
+        - label: "default"
+          num_workers: 1
+          spark_conf:
+            "spark.databricks.cluster.profile": "singleNode"
+            "spark.master": "local[*]"
+          custom_tags:
+            "ResourceClass": "SingleNode"
