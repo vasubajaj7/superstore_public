@@ -25,7 +25,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pytest pyspark databricks-cli databricks-sdk
+        pip install pytest pyspark databricks-cli>=0.200.0 databricks-sdk
         pip install -r requirements.txt
     
     - name: Run unit tests
@@ -52,7 +52,7 @@ jobs:
     - name: Install Databricks CLI
       run: |
         python -m pip install --upgrade pip
-        pip install databricks-cli
+        pip install databricks-cli>=0.200.0
     
     - name: Deploy to Dev
       run: |
@@ -78,7 +78,7 @@ jobs:
     - name: Install Databricks CLI
       run: |
         python -m pip install --upgrade pip
-        pip install databricks-cli
+        pip install databricks-cli>=0.200.0
     
     - name: Deploy to Production
       run: |
