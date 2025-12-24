@@ -1,13 +1,13 @@
 # Superstore Data Pipeline
 
-A comprehensive Databricks project for processing superstore dataset using modern data engineering practices.
+A minimal Databricks project for processing superstore dataset using Asset Bundles.
 
 ## Architecture
 
 ```
 Raw Volume → Stage Schema → Processed Schema
      ↓            ↓              ↓
-   CSV Files → Autoloader → DLT Pipeline
+   CSV Files → Autoloader → Manual Processing
 ```
 
 ## Project Structure
@@ -15,80 +15,43 @@ Raw Volume → Stage Schema → Processed Schema
 ```
 ├── databricks.yml          # Bundle configuration
 ├── resources/              # Resource definitions
-│   ├── catalog.yml         # Catalog, schemas, volumes
-│   └── jobs.yml           # Jobs and DLT pipelines
-├── src/                   # Source code
-│   ├── load_raw_to_stage.py  # Autoloader notebook
-│   ├── dlt_pipeline.py       # DLT transformations
-│   └── utils.py             # Utility functions
-├── tests/                 # Test suite
-│   ├── conftest.py        # Test fixtures
-│   ├── test_utils.py      # Unit tests
-│   └── test_pipeline.py   # Integration tests
+│   ├── catalog.yml         # Empty (infrastructure via notebook)
+│   ├── jobs.yml           # Jobs configuration
+│   └── src/               # Notebooks
+│       ├── setup_catalog.py    # Infrastructure setup
+│       └── load_raw_to_stage.py # Data loading
 ├── data/                  # Sample data
 └── .github/workflows/     # CI/CD pipeline
 ```
 
 ## Setup
 
-1. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. **Configure Databricks CLI**
+1. **Configure Databricks CLI**
    ```bash
    databricks configure --token
    ```
 
-3. **Deploy to Development**
+2. **Deploy to Development**
    ```bash
    databricks bundle deploy --target dev
    ```
 
 ## Data Pipeline
 
-### 1. Catalog Setup
-- **Catalog**: `superstore`
+### 1. Infrastructure Setup
+- **Catalog**: `superstore_dev` (dev) / `superstore` (prod)
 - **Schemas**: `stage`, `processed`
 - **Volume**: `raw` (in stage schema)
 
 ### 2. Data Flow
-1. **Raw → Stage**: Autoloader reads CSV files from volume
-2. **Stage → Processed**: DLT pipeline with bronze/silver/gold layers
-
-### 3. Data Quality
-- Sales > 0 validation
-- Quantity > 0 validation
-- Profit margin calculations
-- Aggregated metrics by category/region/segment
-
-## Testing
-
-```bash
-# Run all tests
-pytest
-
-# Run unit tests only
-pytest -m unit
-
-# Run integration tests only
-pytest -m integration
-```
+1. **Setup**: Run "Setup Infrastructure" job to create catalog/schemas/volume
+2. **Ingestion**: Run "Superstore Data Ingestion" job to load CSV to stage table
 
 ## CI/CD
 
 GitHub Actions workflow:
-- **Test**: Run pytest on push/PR
-- **Deploy Dev**: Auto-deploy to dev on develop branch
-- **Deploy Prod**: Manual approval for production deployment
-
-## Usage
-
-1. Upload sample data to raw volume
-2. Run autoloader job to load data to stage
-3. Execute DLT pipeline for processed data
-4. Query gold tables for analytics
+- **Deploy**: Auto-deploy bundle on push to dev/main
+- **Execute**: Run setup and ingestion jobs automatically
 
 ## Environment Variables
 
