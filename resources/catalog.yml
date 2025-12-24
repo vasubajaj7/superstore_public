@@ -1,8 +1,1 @@
-resources:
-  volumes:
-    raw_volume:
-      name: ${var.volume_name}
-      catalog_name: ${var.catalog_name}
-      schema_name: ${var.schema_stage}
-      volume_type: MANAGED
-      comment: "Raw data volume for superstore dataset"
+resources: {}

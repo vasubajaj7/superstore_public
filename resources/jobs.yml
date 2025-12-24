@@ -22,19 +22,3 @@ resources:
               catalog_name: ${var.catalog_name}
               schema_name: ${var.schema_stage}
               volume_name: ${var.volume_name}
-              
-        - task_key: "dlt_pipeline"
-          depends_on:
-            - task_key: "load_raw_to_stage"
-          pipeline_task:
-            pipeline_id: ${resources.pipelines.superstore_dlt.id}
-            
-  pipelines:
-    superstore_dlt:
-      name: "Superstore DLT Pipeline"
-      catalog: ${var.catalog_name}
-      target: ${var.schema_processed}
-      serverless: true
-      libraries:
-        - notebook:
-            path: "src/dlt_pipeline.py"
