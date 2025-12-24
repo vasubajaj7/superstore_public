@@ -1,15 +1,4 @@
 resources:
-  schemas:
-    stage_schema:
-      name: ${var.schema_stage}
-      catalog_name: ${var.catalog_name}
-      comment: "Stage schema for raw data processing"
-      
-    processed_schema:
-      name: ${var.schema_processed}
-      catalog_name: ${var.catalog_name}
-      comment: "Processed schema for clean data"
-      
   volumes:
     raw_volume:
       name: ${var.volume_name}

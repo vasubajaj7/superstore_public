@@ -53,14 +53,6 @@ jobs:
       run: |
         curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
     
-    - name: Create Catalog
-      run: |
-        databricks catalogs create superstore_dev --comment "Development catalog for superstore project"
-    
-    - name: Create Catalog
-      run: |
-        databricks catalogs create superstore_dev --comment "Development catalog for superstore project" || true
-    
     - name: Deploy to Dev
       run: |
         databricks bundle deploy --target dev
@@ -85,14 +77,6 @@ jobs:
     - name: Install Databricks CLI
       run: |
         curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
-    
-    - name: Create Catalog
-      run: |
-        databricks catalogs create superstore --comment "Production catalog for superstore project"
-    
-    - name: Create Catalog
-      run: |
-        databricks catalogs create superstore --comment "Production catalog for superstore project" || true
     
     - name: Deploy to Production
       run: |

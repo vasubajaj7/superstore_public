@@ -1,17 +1,21 @@
 resources:
   jobs:
+    setup_infrastructure:
+      name: "Setup Infrastructure"
+      tasks:
+        - task_key: "setup_catalog"
+          notebook_task:
+            notebook_path: "src/setup_catalog.py"
+            base_parameters:
+              catalog_name: ${var.catalog_name}
+              schema_stage: ${var.schema_stage}
+              schema_processed: ${var.schema_processed}
+              volume_name: ${var.volume_name}
+    
     superstore_ingestion:
       name: "Superstore Data Ingestion"
-      job_clusters:
-        - job_cluster_key: "main"
-          new_cluster:
-            spark_version: "13.3.x-scala2.12"
-            node_type_id: "i3.xlarge"
-            num_workers: 2
-            
       tasks:
         - task_key: "load_raw_to_stage"
-          job_cluster_key: "main"
           notebook_task:
             notebook_path: "src/load_raw_to_stage.py"
             base_parameters:
@@ -30,14 +34,7 @@ resources:
       name: "Superstore DLT Pipeline"
       catalog: ${var.catalog_name}
       target: ${var.schema_processed}
+      serverless: true
       libraries:
         - notebook:
             path: "src/dlt_pipeline.py"
-      clusters:
-        - label: "default"
-          num_workers: 1
-          spark_conf:
-            "spark.databricks.cluster.profile": "singleNode"
-            "spark.master": "local[*]"
-          custom_tags:
-            "ResourceClass": "SingleNode"
