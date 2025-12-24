@@ -31,10 +31,6 @@ jobs:
     - name: Run unit tests
       run: |
         pytest tests/ -m unit -v
-    
-    # - name: Run integration tests
-    #   run: |
-    #     pytest tests/ -m integration -v
 
   deploy-dev:
     needs: test
@@ -62,8 +58,16 @@ jobs:
     
     - name: Run Setup Infrastructure Job
       run: |
+        echo "Listing all jobs:"
+        databricks jobs list --output json
         JOB_ID=$(databricks jobs list --output json | jq -r '.[] | select(.settings.name=="Setup Infrastructure") | .job_id')
-        databricks jobs run-now $JOB_ID
+        echo "Found job ID: $JOB_ID"
+        if [ -n "$JOB_ID" ]; then
+          databricks jobs run-now $JOB_ID
+        else
+          echo "Job 'Setup Infrastructure' not found"
+          exit 1
+        fi
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
@@ -71,7 +75,13 @@ jobs:
     - name: Run Data Ingestion Job
       run: |
         JOB_ID=$(databricks jobs list --output json | jq -r '.[] | select(.settings.name=="Superstore Data Ingestion") | .job_id')
-        databricks jobs run-now $JOB_ID
+        echo "Found job ID: $JOB_ID"
+        if [ -n "$JOB_ID" ]; then
+          databricks jobs run-now $JOB_ID
+        else
+          echo "Job 'Superstore Data Ingestion' not found"
+          exit 1
+        fi
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
@@ -104,7 +114,13 @@ jobs:
     - name: Run Setup Infrastructure Job
       run: |
         JOB_ID=$(databricks jobs list --output json | jq -r '.[] | select(.settings.name=="Setup Infrastructure") | .job_id')
-        databricks jobs run-now $JOB_ID
+        echo "Found job ID: $JOB_ID"
+        if [ -n "$JOB_ID" ]; then
+          databricks jobs run-now $JOB_ID
+        else
+          echo "Job 'Setup Infrastructure' not found"
+          exit 1
+        fi
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
@@ -112,7 +128,13 @@ jobs:
     - name: Run Data Ingestion Job
       run: |
         JOB_ID=$(databricks jobs list --output json | jq -r '.[] | select(.settings.name=="Superstore Data Ingestion") | .job_id')
-        databricks jobs run-now $JOB_ID
+        echo "Found job ID: $JOB_ID"
+        if [ -n "$JOB_ID" ]; then
+          databricks jobs run-now $JOB_ID
+        else
+          echo "Job 'Superstore Data Ingestion' not found"
+          exit 1
+        fi
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
