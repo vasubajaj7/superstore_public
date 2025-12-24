@@ -2,7 +2,7 @@ name: Superstore Data Pipeline CI/CD
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, dev ]
   pull_request:
     branches: [ main ]
 
@@ -39,7 +39,7 @@ jobs:
   deploy-dev:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/dev'
     
     steps:
     - uses: actions/checkout@v3
