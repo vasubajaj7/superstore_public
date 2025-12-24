@@ -59,6 +59,20 @@ jobs:
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    
+    - name: Run Setup Infrastructure Job
+      run: |
+        databricks jobs run-now --job-name "Setup Infrastructure"
+      env:
+        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    
+    - name: Run Data Ingestion Job
+      run: |
+        databricks jobs run-now --job-name "Superstore Data Ingestion"
+      env:
+        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
   deploy-prod:
     needs: test
@@ -81,6 +95,20 @@ jobs:
     - name: Deploy to Production
       run: |
         databricks bundle deploy --target prod
+      env:
+        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    
+    - name: Run Setup Infrastructure Job
+      run: |
+        databricks jobs run-now --job-name "Setup Infrastructure"
+      env:
+        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+    
+    - name: Run Data Ingestion Job
+      run: |
+        databricks jobs run-now --job-name "Superstore Data Ingestion"
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
